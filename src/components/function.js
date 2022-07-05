@@ -1,6 +1,6 @@
 module.exports = {
     test: () => {
-        console.log('test');
+        console.log('test ');
     },
 
     product: (x, y) => {
