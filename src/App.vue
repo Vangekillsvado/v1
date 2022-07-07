@@ -138,6 +138,7 @@ export default {
       //based on the appointment type, we change which codes we test for
       let code = billing(apt, this.appointments, patient)
 
+
       this.appointments.push({
         id: apt.id,
         date: apt.date,

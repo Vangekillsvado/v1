@@ -1,8 +1,25 @@
 module.exports = {
     distanceBetweenDates: distanceBetweenDates,
+    daysBetween: daysBetween,
 }
+
+/**
+ * 
+ * @param {Date} d1 
+ * @param {Date} d2 
+ * @returns {number} number of milliseconds between the two dates
+ */
 function distanceBetweenDates(d1, d2){
-    console.log(d1, d2, "I'm Pickl Ricke")
     return d2.getTime() - d1.getTime()
 
+}
+/**
+ * Returns the number of days between two Dates
+ * @param {Date} d1 
+ * @param {Date} d2 
+ * @return {number} days
+ */
+
+function daysBetween(d1, d2){
+   return Math.abs(d2.getTime() - d1.getTime()) / 86400000
 }
