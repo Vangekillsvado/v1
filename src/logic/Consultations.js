@@ -2,11 +2,16 @@
 //     bill : consultations
 // }
 
-  /*
-  * Helper function that holds all consultation validation
-  */
+/**
+ * 
+ * @param {*} apt 
+ * @param {Array} appointments 
+ * @returns {String} the billing code
+ */
 export function consultations(apt, appointments){
-
+    console.log('fired')
+    console.log(appointments)
+    console.log(apt)
     if(C345(apt, appointments)){
       return "C345"
     }
@@ -25,23 +30,26 @@ import * as bill from './BillingFunctions'
   
     //Full (345) – max 1/ 24 months period 
     
-    let minimumTime = 2*31536000000 //the minimum time allowed changes based on patientType
+    let minimumTime = 2*365 //the minimum time allowed changes based on patientType
 
     if (apt.patientType == 'ed' || apt.patientType == 'inpatient'){
       minimumTime /= 2 ;
     }
 
    //grab all apts within 2 years with same diagnosis and cr code
-    let relevantApts = appointments.filter(function(app){
-      return (app.id == apt.id && app.diagnosis == apt.diagnosis && app.code == 'C345')
+     let relevantApts = appointments.filter(function(app){
+      return (app.diagnosis == apt.diagnosis && app.code == 'C345')
     })
-   // console.log("Apts: ",relevantApts)
+   console.log("Apts: ",relevantApts)
     let found = false
     for (let i = 0 ; i < relevantApts.length ; i++){
       
-      if (Math.abs(bill.distanceBetweenDates(apt.date, relevantApts[i].date)) <= minimumTime){
+      if (Math.abs(bill.daysBetween(apt.date, relevantApts[i].date)) <= minimumTime){
         found = true
-       
+        console.log('too frequent')
+        console.log('date',apt.date, 'hist',relevantApts[i])
+        console.log(i)
+        console.log(bill.daysBetween(apt.date, relevantApts[i].date))
 
     
       }

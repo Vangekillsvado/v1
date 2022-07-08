@@ -2,7 +2,7 @@
  
   <h1>Verus</h1>
 
-  <h2>
+  <h5>
 
     Switch Views <br>
     <div class="buttons">
@@ -11,7 +11,7 @@
     </div>
     
   
-  </h2>
+  </h5>
   <InputFields v-if="this.mode==1" msg="AHHHHH" @submitPatient="test12"/>
   <CreateAppointments v-if="this.mode==2" @submitAppointment="verifyId"/> <!--  -->
   
@@ -81,32 +81,26 @@ export default {
       ],
       appointments: [{
         id: 1152,
-        date: new Date(1969, 3, 20), //loaded with sample data,
-        diagnosis: "Tired",
+        date: new Date(2020, 3, 20), //loaded with sample data,
+        diagnosis: "Sleep Apnea",
         code: "A345",
         patientType: "Regular",
       },
       {
         id: 1010,
         date: new Date(2021,2,5),
-        diagnosis: "Tired",
+        diagnosis: "Diabetes",
         code: "C345",
         patientType: "Regular",
       },
       {
         id: 1010,
         date: new Date(2021,3,5),
-        diagnosis: "Dead",
+        diagnosis: "Cancer",
         code: "C345",
         patientType: "Regular",
       },
-      {
-        id: 1010,
-        date: new Date(2021,1,5),
-        diagnosis: "Tired",
-        code: "C345",
-        patientType: "Regular",
-      },
+     
       ],
       datum: "egg",
       mode: 2,

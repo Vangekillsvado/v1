@@ -9,7 +9,7 @@
     </tr>
 
      <tr><th><p>Diagnosis: </p></th>
-    <th><input value="Tired" ref="diagnosis" name="diagnosis" type="text"></th>
+    <th><input value="Cancer" ref="diagnosis" name="diagnosis" type="text"></th>
     </tr>
 
     <tr><th><p>Appointment Type :  </p></th>
@@ -17,6 +17,7 @@
         <select value="Follow Up" v-model="formType" name="appointmentType" id="appointmentType" ref="appointmentType">
             <option value="Consultation">Consultation</option>
             <option value="Follow Up">Follow Up</option>
+            <option value="Counselling">Counselling</option>
         </select>
   </th>
     </tr>
@@ -60,19 +61,10 @@
             </select>
              </th>
             </tr>
-            <!-- </table> -->
-    <!-- </div> -->
-            
-
-
-     <!-- <tr><th><p>Category: </p></th>
-    <th><input value="Consultation" ref="category" name="category" type="text"></th>
-    </tr> -->
-
 
 
     <button @click="submitApt">Submit Appointment</button>
-    <button @click="test">Click</button>
+
 
 
     </table>
@@ -107,8 +99,9 @@ export default {
             //create different objects grabbing different properties based on appointment type
             // if referall status is only relevant to consultations, we don't ask, therefore don't have it in follow ups
             // and this is just dead memory / a great way to end up reading from undefined 
-            // eslint-disable-next-line
-            if(false){ //this.formType == 'Consultation' //changing to test follow up
+
+
+            if(this.formType == 'Consultation'){ //this.formType == 'Consultation' //changing to test follow up
 
             appointment = {
 
@@ -121,8 +114,8 @@ export default {
 
             }
             }
-            // eslint-disable-next-line
-            else if(true){ //this.formType == 'Follow Up'
+
+            else if(this.formType == 'Follow Up'){ //this.formType == 'Follow Up'
                 
                 if(!this.asmtType) {
                 alert('You must fill in an assessment type') 
@@ -138,7 +131,19 @@ export default {
                     asmtType: this.$refs.assessmentType.value,
                 }
             }
-            else if (this.$refs.admissionAssessed) { //no appointment type is selected
+
+
+            else if(this.formType == 'Counselling'){
+                appointment = {
+                    id: this.$refs.id.value,
+                    date: date,//new Date(this.$refs.appointmentDate.value),//new Date(2022,3,20), //automated for testing
+                    diagnosis: this.$refs.diagnosis.value,
+                    assessedAdmission: this.assessed,//this.$refs.admissionAssessed.value,
+                    aptType: this.$refs.appointmentType.value,//this.$refs.appointmentType.value,
+                }
+            }
+
+            else { //no appointment type is selected
                 alert('In order to bill a code, you must select an appointment type.')
                 return
             }
