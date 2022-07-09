@@ -9,6 +9,15 @@
     <tr><th><p>Date of Birth: </p></th>
     <th><input ref="birthday" name="birthday" type="date"></th>
     </tr>
+    <tr><th><p>Chronic Disease:</p></th>
+    <th>
+        <select v-model="diseaseAssessment">
+            <option value="Diabetes">Diabetes</option>
+            <option value="Cancer">Cancer</option>
+            <option value="Schizophrenia">Schizophrenia</option>
+            <option value="">None</option>
+        </select></th>
+    </tr>
     <tr><button @click="handleClick" >Submit</button></tr>
    
 
@@ -20,16 +29,18 @@ export default {
 
   data(){
     return{
-      
+      diseaseAssessment:'',
     }
   },
   
   methods: {
     handleClick(){
+       
         this.$emit('submitPatient', {
             name: this.$refs.name.value,
             id: this.$refs.id.value,
-            birthday: new Date(this.$refs.birthday.value)
+            birthday: new Date(this.$refs.birthday.value), 
+            chronicDisease: this.diseaseAssessment
         })
 
 

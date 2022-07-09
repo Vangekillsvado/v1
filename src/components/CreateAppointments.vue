@@ -49,8 +49,16 @@
             <tr v-if="formType =='Follow Up'" ><th><p>Assessed for hospital admission :</p></th> 
             <th><input v-model="assessed" type="checkbox" ref="admissionAssessed"></th>
             </tr>
-
-
+<!--            If the physician is to automatically bill, no need for them to see this, instead it should be patient property
+            <tr v-if="formType == 'Follow Up'"> <th><p>Chronic Disease Assessment: </p></th>
+                <th><select v-model="diseaseAssessment">
+                <option value="Diabetes">Diabetes</option>
+                <option value="Cancer">Cancer</option>
+                <option value="Schizophrenia">Schizophrenia</option>
+                </select>
+                </th>
+            </tr>
+             -->
             <tr v-if="formType == 'Follow Up'"><th><p>What type of Follow Up?</p></th>
             <th>
             <select v-model="asmtType" name="assessmentType" id="assessmentType" ref="assessmentType">
@@ -61,6 +69,7 @@
             </select>
              </th>
             </tr>
+
 
 
     <button @click="submitApt">Submit Appointment</button>
@@ -81,6 +90,7 @@ export default {
             formType:'',
             assessed:false,
             asmtType:'',
+            
         }
     },
     methods: {

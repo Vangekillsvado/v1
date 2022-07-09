@@ -14,7 +14,7 @@ export function followUps(apt, patient, appointments){
 
 
 
-    let code = 'Null Code'
+    let code = ''
 
     switch(apt.asmtType){
         case '343':
@@ -33,7 +33,7 @@ export function followUps(apt, patient, appointments){
             alert('Something went wrong with the switch cases in the follow up')
 
     }
-
+   
     //if(C343(apt, patient, appointments)) return "C343"
     return code
   }

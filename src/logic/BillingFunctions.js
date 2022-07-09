@@ -1,6 +1,7 @@
 module.exports = {
     distanceBetweenDates: distanceBetweenDates,
     daysBetween: daysBetween,
+    chronicDiseaseValidity: chronicDiseaseValidity,
 }
 
 /**
@@ -22,4 +23,13 @@ function distanceBetweenDates(d1, d2){
 
 function daysBetween(d1, d2){
    return Math.abs(d2.getTime() - d1.getTime()) / 86400000
+}
+
+/**
+ * 
+ * @param {String} code 
+ * @returns boolean compatability with E078
+ */
+function chronicDiseaseValidity(code){
+    return (code == 'C340' || code == 'C341' || code == 'C343')
 }

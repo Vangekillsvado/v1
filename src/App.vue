@@ -12,7 +12,7 @@
     
   
   </h5>
-  <InputFields v-if="this.mode==1" msg="AHHHHH" @submitPatient="test12"/>
+  <InputFields v-if="this.mode==1" msg="AHHHHH" @submitPatient="submitPatient"/>
   <CreateAppointments v-if="this.mode==2" @submitAppointment="verifyId"/> <!--  -->
   
 
@@ -27,7 +27,7 @@
   </ul>
 
   <ul v-if="this.mode==2"> <!-- appointment mode -->
-    <li  v-for="a in appointments" v-bind:key="a">
+    <li  v-for="a in appointments" v-bind:key="a"> <!-- gotta inject some sorta for loop into here to display multiple codes -->
         <p>{{ a.id }} - {{ a.date.toDateString() }} - {{a.diagnosis}} - {{ a.code }} - {{ a.patientType}} - {{ a.refStatus }}</p>
     </li>
   </ul>
@@ -46,7 +46,7 @@ export default {
   name: 'App',
   components: {
     InputFields,
-    CreateAppointments,
+    CreateAppointments, 
 
 },
   data(){
@@ -77,7 +77,13 @@ export default {
           name: "George Kris",
           id: 1010,
           birthday: new Date(1930,5,5)
-        }
+        },
+        {
+            name: 'Alex',
+            id: 1999,
+            birthday: new Date(2005, 3, 5),
+            chronicDisease: 'Schizophrenia'
+        },
       ],
       appointments: [{
         id: 1152,
@@ -138,11 +144,13 @@ export default {
         date: apt.date,
         diagnosis: apt.diagnosis,
         code: code,
-      }
+      },
+      
       )
  
       
   },
+    submitPatient(pat){ this.patients.push(pat)},
 }, //methods closing bracket
 }
 </script>

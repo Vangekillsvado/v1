@@ -18,7 +18,7 @@ export function consultations(apt, appointments){
     else if(C745(apt)){
       return "C745"
     }
-    else return"No Code"
+    else return ''
 }
 
 import * as bill from './BillingFunctions'
