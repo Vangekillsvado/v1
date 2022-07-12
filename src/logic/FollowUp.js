@@ -18,13 +18,13 @@ export function followUps(apt, patient, appointments){
 
     switch(apt.asmtType){
         case '343':
-            if(C343(apt, patient, appointments)) code = "C343"
+            if(C343(apt, patient, appointments)) code = "343"
             break
         case '341':
-            if(C341(appointments)) code = 'C341' 
+            if(C341(appointments)) code = '341' 
             break
         case '340':
-            if(C340(appointments))code = 'C340'
+            if(C340(appointments))code = '340'
             break
         case '348':
             code = 'C348' //no function as no max, no logic needed to determine
@@ -104,8 +104,7 @@ function C343(apt, patient, appointments){
 function C341(appointments){
 
     //get relevant apps, if length is *3* or longer, reject
-    console.log(appointments.length)
-    console.log(appointments.filter ((app) => {return (app.code == 'C341' || app.code == 'C343')}).length)
+   
     return (appointments.filter ((app) => {return (app.code == 'C341' || app.code == 'C343')}).length < 4)
 
 }

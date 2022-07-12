@@ -1,8 +1,12 @@
 import {consultations} from './Consultations'
 import {followUps} from './FollowUp'
 import { counselling } from './Counselling'
+
+import { hello } from './hello.ts'
+
 import * as bill from './BillingFunctions'
 
+import { consultationCodes } from './ObjectConsultations'
 /**
  * 
  * @param {apt} apt 
@@ -14,9 +18,14 @@ export function billing(apt, appointments, patient){
     //afaik codes don't care about other ids, so might as well factor it out here
     let filteredAppointments = appointments.filter((app) => {return app.id == apt.id})
 
+    hello()
+    
+    console.log(consultationCodes[0].isValid(apt, filteredAppointments))
+
     //we use a list since we might have multiple codes
     let code = []
     let temp = '' //set to empty string so we can boolean it
+
     switch(apt.aptType){
         case 'Consultation':
             temp = consultations(apt, filteredAppointments)
@@ -33,26 +42,15 @@ export function billing(apt, appointments, patient){
     }
 
     if(!temp) temp = 'No Code'
+
+    
+    temp = bill.specialVisitPremiums(temp, apt)
+    //assumption is being made: that if no code is valid, then inpatient won't make one
+    //we must be checking for inpatient within each code to not run into that issue
+    
     code.push(temp)
-   // check whether code is compatible with e078
-    if (patient.chronicDisease && bill.chronicDiseaseValidity(code[0])){
-        code.push('E078')
-    }
-
-   
+    
     return code
-
-
-    // if (apt.aptType == 'Consultation'){
-    //     //  console.log(Consultation.bill(apt, appointments))
-    //     return consultations(apt, appointments)
-    //     //console.log(consultations(apt, appointments))
-    // }
-    // else if (apt.aptType == 'Follow Up'){
-    //     return followUps(apt, patient, appointments)
-    // }
-
-
 }
 
 

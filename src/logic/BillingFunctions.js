@@ -2,6 +2,7 @@ module.exports = {
     distanceBetweenDates: distanceBetweenDates,
     daysBetween: daysBetween,
     chronicDiseaseValidity: chronicDiseaseValidity,
+    specialVisitPremiums: specialVisitPremiums,
 }
 
 /**
@@ -32,4 +33,34 @@ function daysBetween(d1, d2){
  */
 function chronicDiseaseValidity(code){
     return (code == 'C340' || code == 'C341' || code == 'C343')
+}
+/**
+ * Determines special visit premiums
+ * @param {String} code 
+ * @param {Object} apt 
+ * @returns {String} Updated code with premium suffix
+ */
+function specialVisitPremiums(code, apt){
+    
+    // EMERG – K; INPATIENT – C; UNSCHEDULED - U
+    // presuming all codes are valid
+
+    switch(apt.aptType){
+        case 'inpatient':
+            code = 'C' + code
+            break
+        case 'unscheduled':
+            code = 'U' + code
+            break
+        case 'ed' :
+            code = 'K' + code
+            break
+        case 'regular':
+            code = 'A' + code
+            break
+
+    }
+
+
+    return code
 }

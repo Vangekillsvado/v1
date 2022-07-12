@@ -1,6 +1,6 @@
 
 export function counselling (apt, appointments){
-    console.log('fire')
+
     //for now, with the one code, we're doing it this way
     if(K013(apt,appointments)) return 'K013' 
     else return 'Null Code'

@@ -9,19 +9,17 @@
  * @returns {String} the billing code
  */
 export function consultations(apt, appointments){
-    console.log('fired')
-    console.log(appointments)
-    console.log(apt)
+
     if(C345(apt, appointments)){
-      return "C345"
+      return "345"
     }
     else if(C745(apt)){
-      return "C745"
+      return "745"
     }
     else return ''
 }
 
-import * as bill from './BillingFunctions'
+import * as bill from './BillingFunctions' 
 
   //1. segregate codes by type 
   //2. each type will be a set of objects
@@ -38,7 +36,7 @@ import * as bill from './BillingFunctions'
 
    //grab all apts within 2 years with same diagnosis and cr code
      let relevantApts = appointments.filter(function(app){
-      return (app.diagnosis == apt.diagnosis && app.code == 'C345')
+      return (app.diagnosis == apt.diagnosis && app.code.substring(1) == '345') //check last characters of code
     })
    console.log("Apts: ",relevantApts)
     let found = false

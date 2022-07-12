@@ -26,12 +26,13 @@
 
     <!-- <div v-if="formType == 'Consultation'"> -->
     <!-- <table class="center"> -->
-            <tr v-if="formType == 'Consultation'"><th><p>Patient is : </p></th>
+            <tr><th><p>Patient is : </p></th>
             <th>
                 <select  name="patientType" id="patientType" ref="patientType">
                     <option value="regular">Regular</option>
                     <option value="inpatient">Inpatient</option>
                     <option value="ed">ED Patient</option>
+                    <option value="unscheduled">Unscheduled</option>
                 </select>
         </th>
             </tr>
