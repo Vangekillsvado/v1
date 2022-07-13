@@ -1,4 +1,4 @@
 export function hello(){
-    let s: String = 'Hello World!'
+    const s: String = 'Hello World!'
     alert(s)
 }

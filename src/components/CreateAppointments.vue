@@ -2,7 +2,7 @@
   
     <table class="center">
         <tr><th><p>Patient ID number:</p></th>
-    <th><input value="1010" ref="id" name="id" type="number"></th></tr>
+    <th><input value="2112" ref="id" name="id" type="number"></th></tr>
 
         <tr><th><p>Date of Appointment: </p></th>
     <th><input ref="appointmentDate" name="appointmentDate" type="date"></th>
@@ -14,7 +14,7 @@
 
     <tr><th><p>Appointment Type :  </p></th>
     <th>
-        <select value="Follow Up" v-model="formType" name="appointmentType" id="appointmentType" ref="appointmentType">
+        <select v-model="formType" name="appointmentType" id="appointmentType" ref="appointmentType">
             <option value="Consultation">Consultation</option>
             <option value="Follow Up">Follow Up</option>
             <option value="Counselling">Counselling</option>
@@ -60,7 +60,7 @@
                 </th>
             </tr>
              -->
-            <tr v-if="formType == 'Follow Up'"><th><p>What type of Follow Up?</p></th>
+            <!-- <tr v-if="formType == 'Follow Up'"><th><p>What type of Follow Up?</p></th>
             <th>
             <select v-model="asmtType" name="assessmentType" id="assessmentType" ref="assessmentType">
                 <option value="343">Medical Specific Assessment (343) </option>
@@ -69,7 +69,7 @@
                 <option value="348">Partial Assessment (348)</option>
             </select>
              </th>
-            </tr>
+            </tr> -->
 
 
 
@@ -88,7 +88,7 @@ export default {
     name: 'CreateAppointments',
     data(){
         return{
-            formType:'',
+            formType:'Counselling',
             assessed:false,
             asmtType:'',
             
@@ -128,18 +128,19 @@ export default {
 
             else if(this.formType == 'Follow Up'){ //this.formType == 'Follow Up'
                 
-                if(!this.asmtType) {
-                alert('You must fill in an assessment type') 
-                return
-                }
+                // if(!this.asmtType) {
+                // alert('You must fill in an assessment type') 
+                // return
+                // }
                 
                 appointment = {
                     id: this.$refs.id.value,
                     date: date,//new Date(this.$refs.appointmentDate.value),//new Date(2022,3,20), //automated for testing
                     diagnosis: this.$refs.diagnosis.value,
                     assessedAdmission: this.assessed,//this.$refs.admissionAssessed.value,
+                    patientType: this.$refs.patientType.value,
                     aptType: 'Follow Up',//this.$refs.appointmentType.value,
-                    asmtType: this.$refs.assessmentType.value,
+
                 }
             }
 

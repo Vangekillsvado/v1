@@ -1,3 +1,4 @@
+
 <template>
  
   <h1>Verus</h1>
@@ -28,26 +29,20 @@
 
   <ul v-if="this.mode==2"> <!-- appointment mode -->
     <li  v-for="a in appointments" v-bind:key="a"> <!-- gotta inject some sorta for loop into here to display multiple codes -->
-        <p>{{ a.id }} - {{ a.date.toDateString() }} - {{a.diagnosis}} - {{ a.code }} - {{ a.patientType}} - {{ a.refStatus }}</p>
+        <p>{{ a.id }} - {{ a.date.toDateString() }} - {{a.diagnosis}} - {{ displayCodes(a.code) }} - {{ a.patientType}} - {{ a.refStatus }}</p>
     </li>
   </ul>
 </template>
 
 <script>
-
-
 import InputFields from './components/InputFields.vue'
 import CreateAppointments from './components/CreateAppointments.vue'
-
 import {billing} from './logic/Billing'
-
-
 export default {
   name: 'App',
   components: {
     InputFields,
     CreateAppointments, 
-
 },
   data(){
     return{
@@ -56,7 +51,6 @@ export default {
           name: "Adam Clarke",
           id: 1234,
           birthday: new Date(2003, 1, 5) //loaded with sample data
-
         },
         {
           name: "Summer Clarke",
@@ -89,21 +83,21 @@ export default {
         id: 1152,
         date: new Date(2020, 3, 20), //loaded with sample data,
         diagnosis: "Sleep Apnea",
-        code: "A345",
+        code: ['C345'],
         patientType: "Regular",
       },
       {
         id: 1010,
         date: new Date(2021,2,5),
         diagnosis: "Diabetes",
-        code: "C345",
+        code: ['A345'],
         patientType: "Regular",
       },
       {
         id: 1010,
         date: new Date(2021,3,5),
         diagnosis: "Cancer",
-        code: "C345",
+        code: ['C345'],
         patientType: "Regular",
       },
      
@@ -115,8 +109,6 @@ export default {
   },
   methods: {
    
-
-
     switchMode(mode){
       // 0 is welcome, 1 is new pat, 2 is new apt
       this.mode = mode
@@ -126,7 +118,6 @@ export default {
       console.log(typeof this.patients)
     },
     verifyId(apt){
-
       //check list of patients to see if ID is in there
       let patient = this.patients.filter((p) => p.id == apt.id)[0]
       if (!patient) { alert("Patient not found, double check CR number.") 
@@ -134,22 +125,40 @@ export default {
       }
       
     //we need to do the code before we push it to the appointment list
-    
-      //based on the appointment type, we change which codes we test for
-      let code = billing(apt, this.appointments, patient)
 
-
-      this.appointments.push({
-        id: apt.id,
-        date: apt.date,
-        diagnosis: apt.diagnosis,
-        code: code,
-      },
-      
-      )
+        //this is where all the magic happens
+        console.log(this.appointments[this.appointments.length - 1].code)
+        let code = billing(apt, this.appointments, patient)
+        console.log(typeof code)
+        console.log(code.toString())
+        let x = {
+            id: apt.id,
+            date: apt.date,
+            diagnosis: apt.diagnosis,
+            code: code,
+        }
+        console.log(x)
+        this.appointments.push({
+            id: apt.id,
+            date: apt.date,
+            diagnosis: apt.diagnosis,
+            code: code,
+        }
+        )
  
       
   },
+  /**
+   * @param {Array} code
+   * @return {String} pretty codes
+   */
+    displayCodes(codes){
+        let val = ""
+        for (let i = 0 ; i < codes.length ; i++){
+            val += codes[i] + ', '
+        }
+        return val
+    },
     submitPatient(pat){ this.patients.push(pat)},
 }, //methods closing bracket
 }

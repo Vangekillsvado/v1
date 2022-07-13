@@ -38,14 +38,14 @@ function chronicDiseaseValidity(code){
  * Determines special visit premiums
  * @param {String} code 
  * @param {Object} apt 
- * @returns {String} Updated code with premium suffix
+ * @returns {String} Updated code with premium prefix
  */
 function specialVisitPremiums(code, apt){
     
     // EMERG – K; INPATIENT – C; UNSCHEDULED - U
     // presuming all codes are valid
-
-    switch(apt.aptType){
+  //  debugger
+    switch(apt.patientType){
         case 'inpatient':
             code = 'C' + code
             break
@@ -58,7 +58,6 @@ function specialVisitPremiums(code, apt){
         case 'regular':
             code = 'A' + code
             break
-
     }
 
 
