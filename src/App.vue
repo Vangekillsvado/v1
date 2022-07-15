@@ -129,8 +129,8 @@ export default {
         //this is where all the magic happens
         console.log(this.appointments[this.appointments.length - 1].code)
         let code = billing(apt, this.appointments, patient)
-        console.log(typeof code)
-        console.log(code.toString())
+        // console.log(typeof code)
+        // console.log(code.toString())
         let x = {
             id: apt.id,
             date: apt.date,

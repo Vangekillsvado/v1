@@ -3,6 +3,8 @@ import * as bill from './BillingFunctions'
 import { consultationCodes } from './ObjectConsultations'
 import { counsellingCodes } from './counsellingObject'
 import { followUpCodes } from './ObjectFollowUps'
+// eslint-disable-next-line
+import { specialVisitPremiumCodes } from './SpecialVisitPremiumsObjects'
 
 /**
  * 
@@ -12,6 +14,7 @@ import { followUpCodes } from './ObjectFollowUps'
  * @returns {Array} of billing codes
  */
 export function billing(apt, appointments, patient){
+
 
     //afaik codes don't care about other ids, so might as well factor it out here
     let filteredAppointments = appointments.filter((app) => {return app.id == apt.id})
@@ -68,11 +71,29 @@ export function billing(apt, appointments, patient){
     //adds the prefix, i.e 345 -> A345
     let billingCode = bill.specialVisitPremiums(tempCode.code, apt) //returns a strings
     //assumption is being made: that if no code is valid, then inpatient won't make one
+    //wait...I think we check for apt.aptType == inpatient where that is the case, so that
+    //assumption is both false and not relevant
     //we must be checking for inpatient within each code to not run into that issue
     
     code.push(billingCode)
 
+    let premCode = getCode(specialVisitPremiumCodes, datum)
+    console.log(premCode)
+
     return code
+}
+// eslint-disable-next-line 
+function getCode(codeList, datum){
+    // debugger
+    let temp = {
+        code: '000',
+        price: 0,
+    }
+    for (let i = 0 ; i < codeList.length ; i++){
+        //if we find valid, higher billing code, then swap it for tempCode
+        if (codeList[i].isValid(datum) && codeList[i].price > temp.price) temp = codeList[i]
+    }
+    return temp
 }
 
 

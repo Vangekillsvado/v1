@@ -22,7 +22,9 @@
   </th>
     </tr>
 
-
+    <tr><th><p>What time did the appointment end? </p></th>
+    <th> <input v-model="time" type="time"></th>
+    </tr>
 
     <!-- <div v-if="formType == 'Consultation'"> -->
     <!-- <table class="center"> -->
@@ -50,30 +52,11 @@
             <tr v-if="formType =='Follow Up'" ><th><p>Assessed for hospital admission :</p></th> 
             <th><input v-model="assessed" type="checkbox" ref="admissionAssessed"></th>
             </tr>
-<!--            If the physician is to automatically bill, no need for them to see this, instead it should be patient property
-            <tr v-if="formType == 'Follow Up'"> <th><p>Chronic Disease Assessment: </p></th>
-                <th><select v-model="diseaseAssessment">
-                <option value="Diabetes">Diabetes</option>
-                <option value="Cancer">Cancer</option>
-                <option value="Schizophrenia">Schizophrenia</option>
-                </select>
-                </th>
-            </tr>
-             -->
-            <!-- <tr v-if="formType == 'Follow Up'"><th><p>What type of Follow Up?</p></th>
-            <th>
-            <select v-model="asmtType" name="assessmentType" id="assessmentType" ref="assessmentType">
-                <option value="343">Medical Specific Assessment (343) </option>
-                <option value="341">Complex Medical Specific Re-assessment (341)</option>
-                <option value="340">Medical Specific Re-assessment (340)</option>
-                <option value="348">Partial Assessment (348)</option>
-            </select>
-             </th>
-            </tr> -->
 
 
-
+    <!-- <button v-focus @v-on:keyup.enter="submitApt">Submit App</button> -->
     <button @click="submitApt">Submit Appointment</button>
+    <button @click="baxter">Log Time</button>
 
 
 
@@ -88,13 +71,18 @@ export default {
     name: 'CreateAppointments',
     data(){
         return{
-            formType:'Counselling',
+            formType:'Consultation',
             assessed:false,
             asmtType:'',
+            time:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).substring(0,5), //removes the " PM" from the time string
             
         }
     },
     methods: {
+        baxter(){
+            console.log(this.time)
+            console.log(typeof this.time)
+        },
         submitApt(){
             
            let date=new Date(this.$refs.appointmentDate.value)
@@ -102,14 +90,42 @@ export default {
             //if no date is put in, put in this
             //FOR TESTING PURPOSES ONLY
             if(!new Date(this.$refs.appointmentDate.value).getTime()) date = new Date(2022,5,30)
-            
+            debugger
+/* eslint-disable */
+            let five = 5
+            let one = "1"
+            let six = 5 + Number(one)
+            six = String(six)
+             // eslint-disable-next-line 
+            let fuck = new Date(2022,six,30)
+
+
+            //okay so year works, month does not, day...we will fix that...
+            // let dateString = date.getDate
+
+            // let year = dateString.substring(0,2)
+            // let month = dateString.substring(3,5)
+            // let day = dateString.substring(6)
+
+            let day = fuck.getDay()
+
+
+
+
             let appointment = undefined
-            
+           // console.log(this.time, "ahhhhhh ")
+            console.log(this.$refs.appointmentDate.valueAsDate)
+            // eslint-disable-next-line 
+            let coolDate = new Date(Date.UTC(this.$refs.appointmentDate.valueAsDate))
+            console.log(this.$refs.appointmentDate.value)
+            console.log(date)
+
             //utilize obj.assign to remove some redundancy 
 
             //create different objects grabbing different properties based on appointment type
             // if referall status is only relevant to consultations, we don't ask, therefore don't have it in follow ups
             // and this is just dead memory / a great way to end up reading from undefined 
+
 
 
             if(this.formType == 'Consultation'){ //this.formType == 'Consultation' //changing to test follow up
@@ -122,16 +138,12 @@ export default {
                 patientType: this.$refs.patientType.value,
                 refStatus: this.$refs.referall.value,
                 aptType: this.$refs.appointmentType.value,
+                endTime: this.time,
 
             }
             }
 
             else if(this.formType == 'Follow Up'){ //this.formType == 'Follow Up'
-                
-                // if(!this.asmtType) {
-                // alert('You must fill in an assessment type') 
-                // return
-                // }
                 
                 appointment = {
                     id: this.$refs.id.value,
@@ -140,10 +152,10 @@ export default {
                     assessedAdmission: this.assessed,//this.$refs.admissionAssessed.value,
                     patientType: this.$refs.patientType.value,
                     aptType: 'Follow Up',//this.$refs.appointmentType.value,
+                    endTime: this.time,
 
                 }
             }
-
 
             else if(this.formType == 'Counselling'){
                 appointment = {
@@ -152,6 +164,7 @@ export default {
                     diagnosis: this.$refs.diagnosis.value,
                     assessedAdmission: this.assessed,//this.$refs.admissionAssessed.value,
                     aptType: this.$refs.appointmentType.value,//this.$refs.appointmentType.value,
+                    endTime: this.time,
                 }
             }
 
@@ -159,15 +172,13 @@ export default {
                 alert('In order to bill a code, you must select an appointment type.')
                 return
             }
-
-                //console.log(appointment, "vinny ")
                 this.$emit('submitAppointment', appointment)
             }
 
         },
         test(){
-           // alert(this.this.$refs.assessedAdmission.value)
-        },
+            console.log('egg')
+        }
 
     }
 
