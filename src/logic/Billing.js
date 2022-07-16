@@ -1,10 +1,10 @@
 import * as bill from './BillingFunctions'
 // import lists, so we can iterate through them here
-import { consultationCodes } from './ObjectConsultations'
-import { counsellingCodes } from './counsellingObject'
-import { followUpCodes } from './ObjectFollowUps'
+import { consultationCodes } from './ConsultationCodes'
+import { counsellingCodes } from './CounsellingCodes'
+import { followUpCodes } from './FollowUpCodes'
 // eslint-disable-next-line
-import { specialVisitPremiumCodes } from './SpecialVisitPremiumsObjects'
+import { specialVisitPremiumCodes } from './SpecialVisitCodes'
 
 /**
  * 
@@ -47,22 +47,9 @@ export function billing(apt, appointments, patient){
             break
     }
 
-    //create null code to be returned if nothing works / as placeholder
-    let tempCode = {
-        price: 0,
-        code: 'error code'
-    }
-
-    //now iterate through previous list to find code dynamically
-    for (let i = 0 ; i < codeList.length ; i++){
-        //if we find valid, higher billing code, then swap it for tempCode
-        if (codeList[i].isValid(datum) && codeList[i].price > tempCode.price) tempCode = codeList[i]
-    }
-
-
-    console.log(tempCode.code)
-    //now we have the code, we just need to focus on premiums
-
+    
+     let tempCode = getCode(codeList, datum)//= {
+   
 
     //K013 cannot be used with any other code or premium, so
     //if we get that one we just return
@@ -70,19 +57,25 @@ export function billing(apt, appointments, patient){
 
     //adds the prefix, i.e 345 -> A345
     let billingCode = bill.specialVisitPremiums(tempCode.code, apt) //returns a strings
-    //assumption is being made: that if no code is valid, then inpatient won't make one
-    //wait...I think we check for apt.aptType == inpatient where that is the case, so that
-    //assumption is both false and not relevant
-    //we must be checking for inpatient within each code to not run into that issue
+    
     
     code.push(billingCode)
 
-    let premCode = getCode(specialVisitPremiumCodes, datum)
-    console.log(premCode)
+
+    //WIP
+    //let premCode = getCode(specialVisitPremiumCodes, datum)
+
+   
 
     return code
 }
-// eslint-disable-next-line 
+
+/**
+ * Returns highest paying valid billing code
+ * @param {Array} codeList 
+ * @param {Object} datum 
+ * @returns the code object
+ */
 function getCode(codeList, datum){
     // debugger
     let temp = {
@@ -93,6 +86,7 @@ function getCode(codeList, datum){
         //if we find valid, higher billing code, then swap it for tempCode
         if (codeList[i].isValid(datum) && codeList[i].price > temp.price) temp = codeList[i]
     }
+
     return temp
 }
 

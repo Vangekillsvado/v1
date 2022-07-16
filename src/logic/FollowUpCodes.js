@@ -1,11 +1,5 @@
 import * as bill from './BillingFunctions' 
 
-
-export function data(){
-    return followUpCodes
-}
-
-
 //a list of all codes 
 let followUpCodes = [
     {
@@ -15,7 +9,6 @@ let followUpCodes = [
         isValid({apt, appointments}){
                 //Medical Specific Assessment (343) – max 1/ yr unless second unrelated diagnosis, then 2/yr OR if >90 
             //days and assessment for hospital admission
-
             //grab all of these patients apts
             let relevantApts = appointments.filter(function(app){
                 return (app.id == apt.id && app.code.toString().substring(1)=='343')
@@ -24,7 +17,7 @@ let followUpCodes = [
             // ADD 343+341 = max of 4/yr       
             for (let i = 0 ; i < relevantApts.length ; i++){ 
                 
-                // if within one year, check asmt status, 
+                // if within one year, check assessment status, 
                 if (Math.abs(bill.daysBetween(apt.date, relevantApts[i].date)) <= 365 &&   //within one year
                     relevantApts[i].diagnosis == apt.diagnosis){     //same diagnosis
         
@@ -89,5 +82,3 @@ let followUpCodes = [
 
 export {followUpCodes}
 
-//this totally could and should be factored out, but we save that for a day
-//when everything isn't breaking every five seconds 

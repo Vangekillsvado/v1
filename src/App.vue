@@ -1,4 +1,3 @@
-
 <template>
  
   <h1>Verus</h1>
@@ -10,10 +9,11 @@
     <button @click="switchMode(1)">New Patient</button>
     <button @click="switchMode(2)">New Appointment</button>
     </div>
-    
-  
   </h5>
-  <InputFields v-if="this.mode==1" msg="AHHHHH" @submitPatient="submitPatient"/>
+
+
+  <!-- components for new patient/newappt -->
+  <CreatePatients v-if="this.mode==1" msg="AHHHHH" @submitPatient="submitPatient"/>
   <CreateAppointments v-if="this.mode==2" @submitAppointment="verifyId"/> <!--  -->
   
 
@@ -35,42 +35,42 @@
 </template>
 
 <script>
-import InputFields from './components/InputFields.vue'
+import CreatePatients from './components/CreatePatients.vue'
 import CreateAppointments from './components/CreateAppointments.vue'
 import {billing} from './logic/Billing'
 export default {
   name: 'App',
   components: {
-    InputFields,
+    CreatePatients,
     CreateAppointments, 
 },
   data(){
     return{
    patients: [
         {
-          name: "Adam Clarke",
-          id: 1234,
-          birthday: new Date(2003, 1, 5) //loaded with sample data
+            name: "Adam Clarke",
+            id: 1234,
+            birthday: new Date(2003, 1, 5) //loaded with sample data
         },
         {
-          name: "Summer Clarke",
-          id: 2382,
-          birthday: new Date(2005, 5, 27) 
+            name: "Summer Clarke",
+            id: 2382,
+            birthday: new Date(2005, 5, 27) 
         },
         {
-          name: "Steven Clarke",
-          id: 2112,
-          birthday: new Date(1968,1,30)
+            name: "Steven Clarke",
+            id: 2112,
+            birthday: new Date(1968,1,30)
         },
         {
-          name: "Melanie Clarke",
-          id: 1152,
-          birthday: new Date(1972,8,15)
+            name: "Melanie Clarke",
+            id: 1152,
+            birthday: new Date(1972,8,15)
         },
         {
-          name: "George Kris",
-          id: 1010,
-          birthday: new Date(1930,5,5)
+            name: "George Kris",
+            id: 1010,
+            birthday: new Date(1930,5,5)
         },
         {
             name: 'Alex',
@@ -102,9 +102,8 @@ export default {
       },
      
       ],
-      datum: "egg",
       mode: 2,
-      patApt:[], //
+
     }
   },
   methods: {
@@ -112,32 +111,19 @@ export default {
     switchMode(mode){
       // 0 is welcome, 1 is new pat, 2 is new apt
       this.mode = mode
-     // console.log(mode)
-    },
-    help(){
-      console.log(typeof this.patients)
     },
     verifyId(apt){
-      //check list of patients to see if ID is in there
-      let patient = this.patients.filter((p) => p.id == apt.id)[0]
-      if (!patient) { alert("Patient not found, double check CR number.") 
-      return
-      }
+        //check list of patients to see if ID is in there
+        let patient = this.patients.filter((p) => p.id == apt.id)[0]
+        if (!patient) { alert("Patient not found, double check CR number.") 
+        return
+        }
       
-    //we need to do the code before we push it to the appointment list
+        //we need to do the code before we push it to the appointment list
 
         //this is where all the magic happens
-        console.log(this.appointments[this.appointments.length - 1].code)
         let code = billing(apt, this.appointments, patient)
-        // console.log(typeof code)
-        // console.log(code.toString())
-        let x = {
-            id: apt.id,
-            date: apt.date,
-            diagnosis: apt.diagnosis,
-            code: code,
-        }
-        console.log(x)
+
         this.appointments.push({
             id: apt.id,
             date: apt.date,
@@ -159,6 +145,7 @@ export default {
         }
         return val
     },
+    
     submitPatient(pat){ this.patients.push(pat)},
 }, //methods closing bracket
 }

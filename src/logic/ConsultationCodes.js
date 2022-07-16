@@ -1,14 +1,6 @@
 import * as bill from './BillingFunctions' 
 
-
-export function data(){
-    return consultationCodes
-}
-
-
-
-
-//a list of all codes 
+//a list of all consultation codes 
 let consultationCodes = [
     {
         name: 'Consultation',
