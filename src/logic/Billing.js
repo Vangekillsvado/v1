@@ -17,11 +17,17 @@ export function billing(apt, appointments, patient){
 
 
     //afaik codes don't care about other ids, so might as well factor it out here
-    let filteredAppointments = appointments.filter((app) => {return app.id == apt.id})
+    let filteredAppointments = appointments.filter((app) => {return app.id == apt.id}) 
+
+    //THIS IS WHERE BACKEND API CALL SHOULD HAPPEN
+    //APPOINTMENTS NEED TO BE HOOKED AND SET UP AS LIST OF OBJECTS
+    //AND PATIENT OBJECT NEEDS TO HAVE PROPERTIES. 
+    //THE FORM FOR BOTH CAN BE SEEN IN THE APP.VUE 
+    // JAVASCRIPT. THEY ARE A LIST. 
 
     let datum = {
         apt: apt,
-        appointments: filteredAppointments,
+        appointments: filteredAppointments, 
         patient: patient,
     }
     //we use a list since we might have multiple codes
