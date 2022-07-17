@@ -26,8 +26,7 @@
     <th> <input v-model="time" type="time"></th>
     </tr>
 
-    <!-- <div v-if="formType == 'Consultation'"> -->
-    <!-- <table class="center"> -->
+
             <tr><th><p>Patient is : </p></th>
             <th>
                 <select  name="patientType" id="patientType" ref="patientType">
@@ -54,9 +53,8 @@
             </tr>
 
 
-    <!-- <button v-focus @v-on:keyup.enter="submitApt">Submit App</button> -->
+
     <button @click="submitApt">Submit Appointment</button>
-    <button @click="baxter">Log Time</button>
 
 
 
@@ -79,47 +77,14 @@ export default {
         }
     },
     methods: {
-        baxter(){
-            console.log(this.time)
-            console.log(typeof this.time)
-        },
         submitApt(){
             
            let date=new Date(this.$refs.appointmentDate.value)
-            
+            let appointment = undefined
             //if no date is put in, put in this
             //FOR TESTING PURPOSES ONLY
             if(!new Date(this.$refs.appointmentDate.value).getTime()) date = new Date(2022,5,30)
-            debugger
-/* eslint-disable */
-            let five = 5
-            let one = "1"
-            let six = 5 + Number(one)
-            six = String(six)
-             // eslint-disable-next-line 
-            let fuck = new Date(2022,six,30)
-
-
-            //okay so year works, month does not, day...we will fix that...
-            // let dateString = date.getDate
-
-            // let year = dateString.substring(0,2)
-            // let month = dateString.substring(3,5)
-            // let day = dateString.substring(6)
-
-            let day = fuck.getDay()
-
-
-
-
-            let appointment = undefined
-           // console.log(this.time, "ahhhhhh ")
-            console.log(this.$refs.appointmentDate.valueAsDate)
-            // eslint-disable-next-line 
-            let coolDate = new Date(Date.UTC(this.$refs.appointmentDate.valueAsDate))
-            console.log(this.$refs.appointmentDate.value)
-            console.log(date)
-
+       
             //utilize obj.assign to remove some redundancy 
 
             //create different objects grabbing different properties based on appointment type
@@ -176,9 +141,6 @@ export default {
             }
 
         },
-        test(){
-            console.log('egg')
-        }
 
     }
 
