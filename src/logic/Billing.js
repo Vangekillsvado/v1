@@ -69,6 +69,7 @@ export function billing(apt, appointments, patient){
 
 
     //WIP
+    // eslint-disable-next-line
     //let premCode = getCode(specialVisitPremiumCodes, datum)
 
    
