@@ -19,16 +19,11 @@ export function billing(apt, appointments, patient){
     //afaik codes don't care about other ids, so might as well factor it out here
     let filteredAppointments = appointments.filter((app) => {return app.id == apt.id}) 
 
-    //THIS IS WHERE BACKEND API CALL SHOULD HAPPEN
-    //APPOINTMENTS NEED TO BE HOOKED AND SET UP AS LIST OF OBJECTS
-    //AND PATIENT OBJECT NEEDS TO HAVE PROPERTIES. 
-    //THE FORM FOR BOTH CAN BE SEEN IN THE APP.VUE 
-    // JAVASCRIPT. THEY ARE A LIST. 
 
     let datum = {
-        apt: apt,
-        appointments: filteredAppointments, 
-        patient: patient,
+        apt: apt, //got from form, don't touch
+        appointments: filteredAppointments, //either before being passed in, or here, a backend call would need to happen
+        patient: patient, //again, either before being passed in, or here, backend call has to happen
     }
     //we use a list since we might have multiple codes
     let code = []
@@ -67,12 +62,12 @@ export function billing(apt, appointments, patient){
     
     code.push(billingCode)
 
-
+    // debugger
     //WIP
     // eslint-disable-next-line
-    //let premCode = getCode(specialVisitPremiumCodes, datum)
-
-   
+    let premCode = getCode(specialVisitPremiumCodes, datum)
+    //if valid code is returned, add it to list
+    if(premCode.price) code.push(premCode.code) 
 
     return code
 }

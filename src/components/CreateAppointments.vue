@@ -69,7 +69,7 @@ export default {
     name: 'CreateAppointments',
     data(){
         return{
-            formType:'Consultation',
+            formType:'Consultation', //hard coding can be done here
             assessed:false,
             asmtType:'',
             time:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).substring(0,5), //removes the " PM" from the time string

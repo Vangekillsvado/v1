@@ -39,18 +39,24 @@ import CreatePatients from './components/CreatePatients.vue'
 import CreateAppointments from './components/CreateAppointments.vue'
 import {billing} from './logic/Billing'
 export default {
-  name: 'App',
+  name: 'App', //this just needs to be here for Vue to work
   components: {
-    CreatePatients,
+    CreatePatients, //Have to list all components
     CreateAppointments, 
 },
   data(){
     return{
    patients: [
+    /**
+     * This is where a hookup would need to happen, or could happen.
+     * Right now I have all the patients stored here, but we could remove this
+     * and just do calls to the backend later once the cr number is specified. 
+     * So probably ignore this. 
+     */
         {
-            name: "Adam Clarke",
+            name: "Adam Clarke", //this is hard coded patient data
             id: 1234,
-            birthday: new Date(2003, 1, 5) //loaded with sample data
+            birthday: new Date(2003, 1, 5) 
         },
         {
             name: "Summer Clarke",
@@ -79,8 +85,8 @@ export default {
             chronicDisease: 'Schizophrenia'
         },
       ],
-      appointments: [{
-        id: 1152,
+      appointments: [{ //this will also be replaced by later calls to backend when cr is specified
+        id: 1152, 
         date: new Date(2020, 3, 20), //loaded with sample data,
         diagnosis: "Sleep Apnea",
         code: ['C345'],
@@ -102,18 +108,26 @@ export default {
       },
      
       ],
-      mode: 2,
+      mode: 2, //setting the mode to appointments by default and not patient registration
 
     }
   },
   methods: {
-   
+   /**
+    * @param {number}
+    */
     switchMode(mode){
       // 0 is welcome, 1 is new pat, 2 is new apt
       this.mode = mode
     },
     verifyId(apt){
-        //check list of patients to see if ID is in there
+        /**
+         * this would likely be modified a lot. We are checking to see if
+         * the patient exists in the database, so this could be a call to the backend
+         * and check to see if there is a patient there with the cr number
+         * given by apt.id, we then set this patient data equal to an object called
+         * patient
+         */
         let patient = this.patients.filter((p) => p.id == apt.id)[0]
         if (!patient) { alert("Patient not found, double check CR number.") 
         return
@@ -122,8 +136,18 @@ export default {
         //we need to do the code before we push it to the appointment list
 
         //this is where all the magic happens
-        let code = billing(apt, this.appointments, patient)
+        /**
+         * apt is the data input by the user in the form, no need for backend call
+         * patient was determined from above
+         * this.appointments is all the appointments. If you filter by
+         * cr number, we don't have to check for that later and I can remove all the checks. 
+         * We can also get the appointments in the billing function, but here should work too. 
+         * this.appointments is replaced with a call to the backend
+         */
+        let code = billing(apt, this.appointments, patient) 
 
+        //so after we get the appointment, we push it to the list of appointments. 
+        //this would basically be just adding another appointment to the database
         this.appointments.push({
             id: apt.id,
             date: apt.date,
@@ -145,7 +169,7 @@ export default {
         }
         return val
     },
-    
+    //this is adding a patient to the data base
     submitPatient(pat){ this.patients.push(pat)},
 }, //methods closing bracket
 }

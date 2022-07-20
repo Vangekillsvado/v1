@@ -1,12 +1,17 @@
 let specialVisitPremiumCodes = [ //might possible want to add tags, as there are factors like travelling that
 //I think are mutually exclusive
+//AS OF RIGHT NOW, DATES ARE ALL ONE DAY OFF
+//HOPING THIS WILL BE FIXED WITH BACKEND INTEGRATION, SO I AM JUST GOING TO DO LOGIC WITH THE 
+//DAYS BEING ONE OFF
     {
         name: 'Travel Premium for 17:00-24:00 Monday - Friday',
         code: 'C102',
         price: 36.40,
-        isValid({apt}){  // eslint-disable-next-line
+        isValid({apt}){  
             let hours = apt.endTime.substring(0,2)
-            console.log(apt.date.getDay())
+            let day = apt.date.getDay()
+
+            return (hours >= 17 && hours < 24 ** day <= 5 && day > 0) //between 5pm and 12 am mon-fri
         }
     },
     {
@@ -14,6 +19,7 @@ let specialVisitPremiumCodes = [ //might possible want to add tags, as there are
         code: 'C103',
         price: 36.40,
         isValid(){
+            //gonna have to make a list of acceptable holidays
             return false
         }
     },
