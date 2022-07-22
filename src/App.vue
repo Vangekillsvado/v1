@@ -15,11 +15,16 @@
   <!-- components for new patient/newappt -->
   <CreatePatients v-if="this.mode==1" msg="AHHHHH" @submitPatient="submitPatient"/>
   <CreateAppointments v-if="this.mode==2" @submitAppointment="verifyId"/> <!--  -->
+  <SimpleLogin v-if="this.mode==0"></SimpleLogin>
+  <!-- <UserLogin id='login' v-if="this.mode==0"/> -->
   
 
 
   
-  <!-- Check to see whether they're creating a new patient or appointment™ -->
+  <!-- Check to see whether they're logging in, creating a new patient, or appointment™ -->
+
+
+
 
   <ul v-if="this.mode==1"> <!-- patient mode -->
     <li v-for="p in patients" v-bind:key="p">
@@ -37,12 +42,15 @@
 <script>
 import CreatePatients from './components/CreatePatients.vue'
 import CreateAppointments from './components/CreateAppointments.vue'
+// import UserLogin from './components/UserLogin.vue'
 import {billing} from './logic/Billing'
+import SimpleLogin from './components/SimpleLogin.vue'
 export default {
   name: 'App', //this just needs to be here for Vue to work
   components: {
-    CreatePatients, //Have to list all components
-    CreateAppointments, 
+    CreatePatients,
+    CreateAppointments,
+    SimpleLogin
 },
   data(){
     return{
@@ -108,7 +116,7 @@ export default {
       },
      
       ],
-      mode: 2, //setting the mode to appointments by default and not patient registration
+      mode: 0, //setting the mode to appointments by default and not patient registration
 
     }
   },
@@ -187,5 +195,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  
 }
+#login{
+    display: none;
+    /* display:flex; */
+    justify-content: center;
+    align-items: center;
+}
+
+
 </style>
