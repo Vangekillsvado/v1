@@ -25,6 +25,10 @@
     <tr><th><p>What time did the appointment end? </p></th>
     <th> <input v-model="time" type="time"></th>
     </tr>
+    <!-- <tr>
+        <th><p>Did you travel?</p></th>
+        <th><input v-model="travel" type="checkbox"></th>
+    </tr> -->
 
 
             <tr><th><p>Patient is : </p></th>
@@ -37,6 +41,12 @@
                 </select>
         </th>
             </tr>
+
+
+        <tr>
+            <th><p>How long was your appointment?</p></th>
+            <input v-model="aptLength" type="number">
+        </tr>
 
             <tr v-if="formType == 'Consultation'"><th><p>Has patient had referall and care? </p></th>
             <th>
@@ -73,71 +83,63 @@ export default {
             assessed:false,
             asmtType:'',
             time:new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).substring(0,5), //removes the " PM" from the time string
+            travel: false,
+            aptLength: 0,
             
         }
     },
     methods: {
         submitApt(){
+
+            let date=new Date(this.$refs.appointmentDate.value)
+
+           
+            let year, month, day = '';
+            if(!new Date(this.$refs.appointmentDate.value).getTime()) {date = new Date(2022,5,30)}
             
-           let date=new Date(this.$refs.appointmentDate.value)
-            let appointment = undefined
+            else {
+                //this is dumb and stupid, but if I don't do this 
+                //the days are always one off for some fucking reason
+                year = date.getFullYear()
+                month = date.getMonth()
+                day = date.getDate()
+                date = new Date(year, month, day+1)
+            }
+
+            
             //if no date is put in, put in this
             //FOR TESTING PURPOSES ONLY
-            if(!new Date(this.$refs.appointmentDate.value).getTime()) date = new Date(2022,5,30)
+            
        
-            //utilize obj.assign to remove some redundancy 
-
-            //create different objects grabbing different properties based on appointment type
-            // if referall status is only relevant to consultations, we don't ask, therefore don't have it in follow ups
-            // and this is just dead memory / a great way to end up reading from undefined 
-
-
-
-            if(this.formType == 'Consultation'){ //this.formType == 'Consultation' //changing to test follow up
-
-            appointment = {
-
+            let appointment = {
                 id: this.$refs.id.value,
                 date: date,//new Date(this.$refs.appointmentDate.value),//new Date(2022,3,20), //automated for testing
                 diagnosis: this.$refs.diagnosis.value,
                 patientType: this.$refs.patientType.value,
-                refStatus: this.$refs.referall.value,
                 aptType: this.$refs.appointmentType.value,
                 endTime: this.time,
-
+                didTravel: this.travel,
+                aptLength: this.aptLength,
             }
-            }
+            //create different objects grabbing different properties based on appointment type
+            // if referall status is only relevant to consultations, we don't ask, therefore don't have it in follow ups
+            //potentially not a good idea
 
-            else if(this.formType == 'Follow Up'){ //this.formType == 'Follow Up'
-                
-                appointment = {
-                    id: this.$refs.id.value,
-                    date: date,//new Date(this.$refs.appointmentDate.value),//new Date(2022,3,20), //automated for testing
-                    diagnosis: this.$refs.diagnosis.value,
-                    assessedAdmission: this.assessed,//this.$refs.admissionAssessed.value,
-                    patientType: this.$refs.patientType.value,
-                    aptType: 'Follow Up',//this.$refs.appointmentType.value,
-                    endTime: this.time,
+            if(this.formType == 'Consultation'){
+                appointment = Object.assign(appointment,  {refStatus: this.$refs.referall.value})
+           }
 
-                }
+            else if(this.formType == 'Follow Up'){                
+                appointment = Object.assign(appointment,  {assessedAdmission: this.assessed})        
             }
-
-            else if(this.formType == 'Counselling'){
-                appointment = {
-                    id: this.$refs.id.value,
-                    date: date,//new Date(this.$refs.appointmentDate.value),//new Date(2022,3,20), //automated for testing
-                    diagnosis: this.$refs.diagnosis.value,
-                    assessedAdmission: this.assessed,//this.$refs.admissionAssessed.value,
-                    aptType: this.$refs.appointmentType.value,//this.$refs.appointmentType.value,
-                    endTime: this.time,
-                }
-            }
+            //no counselling specific properties
 
             else { //no appointment type is selected
                 alert('In order to bill a code, you must select an appointment type.')
                 return
             }
-                this.$emit('submitAppointment', appointment)
+            //pass the appointment object up to App.vue
+            this.$emit('submitAppointment', appointment)
             }
 
         },

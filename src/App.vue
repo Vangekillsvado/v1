@@ -93,30 +93,31 @@ export default {
             chronicDisease: 'Schizophrenia'
         },
       ],
-      appointments: [{ //this will also be replaced by later calls to backend when cr is specified
-        id: 1152, 
-        date: new Date(2020, 3, 20), //loaded with sample data,
-        diagnosis: "Sleep Apnea",
-        code: ['C345'],
-        patientType: "Regular",
-      },
-      {
-        id: 1010,
-        date: new Date(2021,2,5),
-        diagnosis: "Diabetes",
-        code: ['A345'],
-        patientType: "Regular",
-      },
-      {
-        id: 1010,
-        date: new Date(2021,3,5),
-        diagnosis: "Cancer",
-        code: ['C345'],
-        patientType: "Regular",
-      },
+      appointments: [
+    //     { //this will also be replaced by later calls to backend when cr is specified
+    //     id: 1152, 
+    //     date: new Date(2020, 3, 20), //loaded with sample data,
+    //     diagnosis: "Sleep Apnea",
+    //     code: ['C345'],
+    //     patientType: "Regular",
+    //   },
+    //   {
+    //     id: 1010,
+    //     date: new Date(2021,2,5),
+    //     diagnosis: "Diabetes",
+    //     code: ['A345'],
+    //     patientType: "Regular",
+    //   },
+    //   {
+    //     id: 1010,
+    //     date: new Date(2021,3,5),
+    //     diagnosis: "Cancer",
+    //     code: ['C345'],
+    //     patientType: "Regular",
+    //   },
      
       ],
-      mode: 0, //setting the mode to appointments by default and not patient registration
+      mode: 2, //setting the mode to appointments by default and not patient registration
 
     }
   },
@@ -156,13 +157,15 @@ export default {
 
         //so after we get the appointment, we push it to the list of appointments. 
         //this would basically be just adding another appointment to the database
-        this.appointments.push({
-            id: apt.id,
-            date: apt.date,
-            diagnosis: apt.diagnosis,
-            code: code,
-        }
-        )
+        // this.appointments.push({
+        //     id: apt.id,
+        //     date: apt.date,
+        //     diagnosis: apt.diagnosis,
+        //     code: code,
+        // }
+        // )
+
+        this.appointments.push(Object.assign(apt, {code: code}))
  
       
   },

@@ -3,6 +3,7 @@ module.exports = {
     daysBetween: daysBetween,
     chronicDiseaseValidity: chronicDiseaseValidity,
     specialVisitPremiums: specialVisitPremiums,
+    getDetention: getDetention,
 }
 
 /**
@@ -63,3 +64,33 @@ function specialVisitPremiums(code, apt){
 
     return code
 }
+
+/**
+ * 
+ * @param {Object} apt 
+ * @returns number of times detention is billable
+ */
+function getDetention(apt){
+
+    let minimumTime = 0
+    let timeSpent = apt.aptLength
+
+
+    if (apt.aptType == 'Consultation'){
+        minimumTime = 60
+    }
+
+    else if (apt.aptType == 'Follow Up'){
+        minimumTime = 40
+    }
+        timeSpent-=minimumTime
+        
+        return Math.floor (timeSpent/15)
+}
+
+/* eslint-disable */
+federalHolidays = [{
+    name: 'Christmas',
+    isValid(date){}
+    
+}]

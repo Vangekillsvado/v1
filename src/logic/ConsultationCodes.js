@@ -14,7 +14,7 @@ let consultationCodes = [
                
                 for (let i = 0 ; i < app.code.length ; i++){ //since codes are stored as an array
                     if(app.code[i].toString().substring(1)=='345') {return true} //we cycle through to see if there are any 345 codes
-                    console.log(app.code[i].toString().substring(1), 'the code')
+                    
                 } //in the array 
             })
             for (let i = 0 ; i < relevantApts.length ; i++){ //diff diagnosis, inpatient and ed are once per year, same diagnosis
